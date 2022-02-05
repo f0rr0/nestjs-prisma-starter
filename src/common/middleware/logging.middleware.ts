@@ -8,7 +8,7 @@ export function loggingMiddleware(logger: any = console): Prisma.Middleware {
 
     const after = Date.now();
 
-    logger.log(
+    logger.debug(
       `Prisma Query ${params.model}.${params.action} took ${after - before}ms`
     );
 
