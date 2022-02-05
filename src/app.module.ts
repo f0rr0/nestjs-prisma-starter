@@ -1,6 +1,6 @@
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module, Logger } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +12,8 @@ import config from 'src/common/configs/config';
 import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './gql-config.service';
+import { BullModule } from '@nestjs/bull';
+import { QueueOptions } from 'bull';
 
 @Module({
   imports: [
@@ -28,7 +30,15 @@ import { GqlConfigService } from './gql-config.service';
       driver: ApolloDriver,
       useClass: GqlConfigService,
     }),
-
+    BullModule.registerQueueAsync({
+      name: 'nest-worker',
+      useFactory: async (configService: ConfigService) => {
+        const bullConfig = await configService.get<QueueOptions>('bull');
+        return bullConfig;
+      },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
     AuthModule,
     UsersModule,
     PostsModule,
