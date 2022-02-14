@@ -1,26 +1,24 @@
-import 'reflect-metadata';
-import { ObjectType, HideField, Field } from '@nestjs/graphql';
-import { IsEmail } from 'class-validator';
+import { ObjectType, registerEnumType, HideField } from '@nestjs/graphql';
 import { Post } from 'src/posts/models/post.model';
 import { BaseModel } from 'src/common/models/base.model';
 
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
+
+registerEnumType(Role, {
+  name: 'Role',
+  description: 'User role',
+});
+
 @ObjectType()
 export class User extends BaseModel {
-  @Field()
-  @IsEmail()
   email: string;
-
-  @Field(() => String, { nullable: true })
   firstname?: string;
-
-  @Field(() => String, { nullable: true })
   lastname?: string;
-
-  roles: string[];
-
-  @Field(() => [Post], { nullable: true })
-  posts?: [Post] | null;
-
+  role: Role;
+  posts: Post[];
   @HideField()
   password: string;
 }

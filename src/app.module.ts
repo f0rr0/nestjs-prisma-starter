@@ -25,7 +25,6 @@ import { QueueOptions } from 'bull';
         return { middlewares: [loggingMiddleware(logger)] }; // configure your prisma middleware
       },
     }),
-
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useClass: GqlConfigService,
