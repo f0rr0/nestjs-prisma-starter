@@ -141,7 +141,7 @@ type User {
   id: ID!
   lastname: String
   posts: [Post!]
-  roles: [String!]!
+  role: Role!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
