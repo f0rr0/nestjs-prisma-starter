@@ -22,7 +22,7 @@ import { QueueOptions } from 'bull';
       isGlobal: true,
       useFactory: () => {
         const logger = new Logger('PrismaMiddleware');
-        return { middlewares: [loggingMiddleware(logger)] }; // configure your prisma middleware
+        return { middlewares: [loggingMiddleware(logger)] };
       },
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -31,9 +31,8 @@ import { QueueOptions } from 'bull';
     }),
     BullModule.registerQueueAsync({
       name: 'nest-worker',
-      useFactory: async (configService: ConfigService) => {
-        const bullConfig = await configService.get<QueueOptions>('bull');
-        return bullConfig;
+      useFactory: (configService: ConfigService) => {
+        return configService.get<QueueOptions>('bull');
       },
       imports: [ConfigModule],
       inject: [ConfigService],

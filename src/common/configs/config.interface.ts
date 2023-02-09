@@ -1,5 +1,5 @@
-import { ValidatorOptions } from 'class-validator';
 import { QueueOptions } from 'bull';
+import { ValidatorOptions } from 'class-validator';
 
 export interface Config {
   nest: NestConfig;
