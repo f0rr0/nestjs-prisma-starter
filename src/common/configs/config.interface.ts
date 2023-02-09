@@ -1,3 +1,4 @@
+import { QueueOptions } from 'bull';
 import { ValidatorOptions } from 'class-validator';
 
 export interface Config {
@@ -7,6 +8,7 @@ export interface Config {
   graphql: GraphqlConfig;
   security: SecurityConfig;
   validation: ValidatorOptions;
+  bull: QueueOptions;
 }
 
 export interface NestConfig {
